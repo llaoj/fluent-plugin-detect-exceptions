@@ -95,7 +95,6 @@ class DetectExceptionsOutputTest < Test::Unit::TestCase
       at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)			
       at java.lang.reflect.Method.invoke(Method.java:498)			
       at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:63)			
-      at com.sun.proxy.$Proxy416.update(Unknown Source)			
       at org.apache.ibatis.executor.SimpleExecutor.doUpdate(SimpleExecutor.java:50)			
       at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:117)			
       at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:76)			
