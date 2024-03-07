@@ -199,7 +199,7 @@ class DetectExceptionsOutputTest < Test::Unit::TestCase
   def test_mysql_exception_detection
     d = create_driver
     t = Time.now.to_i
-    messages = [ARBITRARY_TEXT, JAVA_EXC, ARBITRARY_TEXT]
+    messages = [ARBITRARY_TEXT, JAVA_MYSQL_EXC, ARBITRARY_TEXT]
     d.run do
       feed_lines(d, t, *messages)
     end
