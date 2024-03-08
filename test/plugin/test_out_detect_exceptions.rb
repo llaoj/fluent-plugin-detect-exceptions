@@ -41,69 +41,79 @@ class DetectExceptionsOutputTest < Test::Unit::TestCase
   END_JAVA
 
   JAVA_MYSQL_EXC = <<~END_JAVA_MYSQL.freeze
-    ### Error updating database.  Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'LOG_OPERATE_PARAMS' at row 1
-    ### The error may involve com.haier.cosmosom.persistence.system.dao.ISystemLogDAO.insert-Inline
+    org.springframework.dao.DataIntegrityViolationException: 
+    ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Out of range value for column 'shutdown_time' at row 1
+    ### The error may exist in com/cosmo/hmzy/dao/TShutdownRecordDayMapper.java (best guess)
+    ### The error may involve com.cosmo.hmzy.dao.TShutdownRecordDayMapper.insert-Inline
     ### The error occurred while setting parameters
-    ### SQL: INSERT INTO     system_log_2024_03    (   ID ,   LOG_TYPE ,   LOG_TITLE ,   LOG_REMOTE_ADDR ,   LOG_USER_AGENT ,   LOG_REQUEST_URI ,   LOG_OPERATE_METHOD_NAME ,   LOG_OPERATE_METHOD ,   LOG_OPERATE_PARAMS ,   LOG_OPERATE_EXCEPTION ,   PROJECT_CODE ,   RESOURCE_ID ,   DATA_SCOPE ,   CREATE_BY_NAME ,   CREATE_BY ,   CREATE_DATE ,   REMARKS ,   BAK1 ,   BAK2 ,   BAK3   ) VALUES (   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?  ,   ?   )
-    ### Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'LOG_OPERATE_PARAMS' at row 1
-    ; SQL []; Data truncation: Data too long for column 'LOG_OPERATE_PARAMS' at row 1; nested exception is com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'LOG_OPERATE_PARAMS' at row 1
-      at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:102)
-      at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73)
-      at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81)
-      at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81)
-      at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:75)
-      at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:53)
-      at com.sun.proxy.$Proxy128.insert(Unknown Source)
-      at net.siufung.boot.mybatis.support.ServiceImpl.insert(ServiceImpl.java:39)
-      at net.siufung.boot.mybatis.support.ServiceImpl$$FastClassBySpringCGLIB$$4f8a5337.invoke(<generated>)
-      at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
-      at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:721)
-      at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
-      at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:99)
-      at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:282)
-      at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:96)
-      at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
-      at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:656)
-      at com.haier.cosmosom.persistence.system.service.SystemLogService$$EnhancerBySpringCGLIB$$c5183cb.insert(<generated>)
-      at com.haier.cosmosom.leaflog.aspect.LeafLogAspect.lambda$handlerLeafLog$0(LeafLogAspect.java:258)
-      at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
-      at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
-      at java.lang.Thread.run(Thread.java:750)
-    Caused by: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'LOG_OPERATE_PARAMS' at row 1
-      at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3971)
-      at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3909)
-      at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2527)
-      at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2680)
-      at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2494)
-      at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1858)
-      at com.mysql.jdbc.PreparedStatement.execute(PreparedStatement.java:1197)
-      at com.alibaba.druid.filter.FilterChainImpl.preparedStatement_execute(FilterChainImpl.java:2931)
-      at com.alibaba.druid.filter.FilterEventAdapter.preparedStatement_execute(FilterEventAdapter.java:440)
-      at com.alibaba.druid.filter.FilterChainImpl.preparedStatement_execute(FilterChainImpl.java:2929)
-      at com.alibaba.druid.filter.FilterEventAdapter.preparedStatement_execute(FilterEventAdapter.java:440)
-      at com.alibaba.druid.filter.FilterChainImpl.preparedStatement_execute(FilterChainImpl.java:2929)
-      at com.alibaba.druid.proxy.jdbc.PreparedStatementProxyImpl.execute(PreparedStatementProxyImpl.java:131)
-      at com.alibaba.druid.pool.DruidPooledPreparedStatement.execute(DruidPooledPreparedStatement.java:493)
-      at org.apache.ibatis.executor.statement.PreparedStatementHandler.update(PreparedStatementHandler.java:46)
-      at org.apache.ibatis.executor.statement.RoutingStatementHandler.update(RoutingStatementHandler.java:74)
-      at sun.reflect.GeneratedMethodAccessor385.invoke(Unknown Source)
-      at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-      at java.lang.reflect.Method.invoke(Method.java:498)
-      at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:63)
-      at com.sun.proxy.$Proxy416.update(Unknown Source)
-      at sun.reflect.GeneratedMethodAccessor385.invoke(Unknown Source)
-      at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-      at java.lang.reflect.Method.invoke(Method.java:498)
-      at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:63)
-      at org.apache.ibatis.executor.SimpleExecutor.doUpdate(SimpleExecutor.java:50)
-      at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:117)
-      at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:76)
-      at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:198)
-      at org.apache.ibatis.session.defaults.DefaultSqlSession.insert(DefaultSqlSession.java:185)
-      at sun.reflect.GeneratedMethodAccessor447.invoke(Unknown Source)
-      at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-      at java.lang.reflect.Method.invoke(Method.java:498)
-      at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:434)
+    ### SQL: INSERT INTO t_shutdown_record_day  ( equipment_no, shutdown_start_time,  shutdown_time, budget_clamping_time, shutdown_exception_time, shutdown_status, closeloop_status,                             data_node, delete_flag, create_time,  update_time,  operator_flag, foreman_flag, process_head_flag, manufacture_head_flag, chain_group_leader_flag, t_shutdown_record_id, last_record_id )  VALUES  ( ?, ?,  ?, ?, ?, ?, ?,                             ?, ?, ?,  ?,  ?, ?, ?, ?, ?, ?, ? )
+    ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Out of range value for column 'shutdown_time' at row 1
+    ; Data truncation: Out of range value for column 'shutdown_time' at row 1; nested exception is com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Out of range value for column 'shutdown_time' at row 1
+            at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:104) ~[spring-jdbc-5.2.15.RELEASE.jar!/:5.2.15.RELEASE]
+            at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:72) ~[spring-jdbc-5.2.15.RELEASE.jar!/:5.2.15.RELEASE]
+            at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81) ~[spring-jdbc-5.2.15.RELEASE.jar!/:5.2.15.RELEASE]
+            at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81) ~[spring-jdbc-5.2.15.RELEASE.jar!/:5.2.15.RELEASE]
+            at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:73) ~[mybatis-spring-2.0.1.jar!/:2.0.1]
+            at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:446) ~[mybatis-spring-2.0.1.jar!/:2.0.1]
+            at com.sun.proxy.$Proxy113.insert(Unknown Source) ~[?:?]
+            at org.mybatis.spring.SqlSessionTemplate.insert(SqlSessionTemplate.java:278) ~[mybatis-spring-2.0.1.jar!/:2.0.1]
+            at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:58) ~[mybatis-plus-core-3.1.2.jar!/:3.1.2]
+            at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:62) ~[mybatis-plus-core-3.1.2.jar!/:3.1.2]
+            at com.sun.proxy.$Proxy149.insert(Unknown Source) ~[?:?]
+            at com.cosmo.hmzy.mqtt.factory.impl.StandardDataMqttHandler.insertRecordDayWithStatusShutdown(StandardDataMqttHandler.java:296) ~[classes!/:1.0-SNAPSHOT]
+            at com.cosmo.hmzy.mqtt.factory.impl.StandardDataMqttHandler.handle(StandardDataMqttHandler.java:148) ~[classes!/:1.0-SNAPSHOT]
+            at com.cosmo.hmzy.service.MqttServiceImpl.handle(MqttServiceImpl.java:22) ~[classes!/:1.0-SNAPSHOT]
+            at com.cosmo.hmzy.mqtt.MqttShutdownRecordConfiguration.lambda$shutdownRecordHandler$37(MqttShutdownRecordConfiguration.java:86) ~[classes!/:1.0-SNAPSHOT]
+            at org.springframework.integration.handler.ReplyProducingMessageHandlerWrapper.handleRequestMessage(ReplyProducingMessageHandlerWrapper.java:58) [spring-integration-core-5.3.8.RELEASE.jar!/:5.3.8.RELEASE]
+            at org.springframework.integration.handler.AbstractReplyProducingMessageHandler.handleMessageInternal(AbstractReplyProducingMessageHandler.java:134) [spring-integration-core-5.3.8.RELEASE.jar!/:5.3.8.RELEASE]
+            at org.springframework.integration.handler.AbstractMessageHandler.handleMessage(AbstractMessageHandler.java:62) [spring-integration-core-5.3.8.RELEASE.jar!/:5.3.8.RELEASE]
+            at org.springframework.integration.dispatcher.AbstractDispatcher.tryOptimizedDispatch(AbstractDispatcher.java:115) [spring-integration-core-5.3.8.RELEASE.jar!/:5.3.8.RELEASE]
+            at org.springframework.integration.dispatcher.UnicastingDispatcher.doDispatch(UnicastingDispatcher.java:133) [spring-integration-core-5.3.8.RELEASE.jar!/:5.3.8.RELEASE]
+            at org.springframework.integration.dispatcher.UnicastingDispatcher.dispatch(UnicastingDispatcher.java:106) [spring-integration-core-5.3.8.RELEASE.jar!/:5.3.8.RELEASE]
+            at org.springframework.integration.channel.AbstractSubscribableChannel.doSend(AbstractSubscribableChannel.java:72) [spring-integration-core-5.3.8.RELEASE.jar!/:5.3.8.RELEASE]
+            at org.springframework.integration.channel.AbstractMessageChannel.send(AbstractMessageChannel.java:570) [spring-integration-core-5.3.8.RELEASE.jar!/:5.3.8.RELEASE]
+            at org.springframework.integration.channel.AbstractMessageChannel.send(AbstractMessageChannel.java:520) [spring-integration-core-5.3.8.RELEASE.jar!/:5.3.8.RELEASE]
+            at org.springframework.messaging.core.GenericMessagingTemplate.doSend(GenericMessagingTemplate.java:187) [spring-messaging-5.2.15.RELEASE.jar!/:5.2.15.RELEASE]
+            at org.springframework.messaging.core.GenericMessagingTemplate.doSend(GenericMessagingTemplate.java:166) [spring-messaging-5.2.15.RELEASE.jar!/:5.2.15.RELEASE]
+            at org.springframework.messaging.core.GenericMessagingTemplate.doSend(GenericMessagingTemplate.java:47) [spring-messaging-5.2.15.RELEASE.jar!/:5.2.15.RELEASE]
+            at org.springframework.messaging.core.AbstractMessageSendingTemplate.send(AbstractMessageSendingTemplate.java:109) [spring-messaging-5.2.15.RELEASE.jar!/:5.2.15.RELEASE]
+            at org.springframework.integration.endpoint.MessageProducerSupport.sendMessage(MessageProducerSupport.java:208) [spring-integration-core-5.3.8.RELEASE.jar!/:5.3.8.RELEASE]
+            at org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter.messageArrived(MqttPahoMessageDrivenChannelAdapter.java:391) [spring-integration-mqtt-5.3.8.RELEASE.jar!/:5.3.8.RELEASE]
+            at org.eclipse.paho.client.mqttv3.internal.CommsCallback.deliverMessage(CommsCallback.java:519) [org.eclipse.paho.client.mqttv3-1.2.4.jar!/:?]
+            at org.eclipse.paho.client.mqttv3.internal.CommsCallback.handleMessage(CommsCallback.java:417) [org.eclipse.paho.client.mqttv3-1.2.4.jar!/:?]
+            at org.eclipse.paho.client.mqttv3.internal.CommsCallback.run(CommsCallback.java:214) [org.eclipse.paho.client.mqttv3-1.2.4.jar!/:?]
+            at java.lang.Thread.run(Thread.java:750) [?:1.8.0_362]
+    Caused by: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Out of range value for column 'shutdown_time' at row 1
+            at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:104) ~[mysql-connector-java-8.0.11.jar!/:8.0.11]
+            at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:960) ~[mysql-connector-java-8.0.11.jar!/:8.0.11]
+            at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:388) ~[mysql-connector-java-8.0.11.jar!/:8.0.11]
+            at com.alibaba.druid.pool.DruidPooledPreparedStatement.execute(DruidPooledPreparedStatement.java:483) ~[druid-1.2.18.jar!/:?]
+            at sun.reflect.GeneratedMethodAccessor147.invoke(Unknown Source) ~[?:?]
+            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_362]
+            at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_362]
+            at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:59) ~[mybatis-3.5.1.jar!/:3.5.1]
+            at com.sun.proxy.$Proxy219.execute(Unknown Source) ~[?:?]
+            at org.apache.ibatis.executor.statement.PreparedStatementHandler.update(PreparedStatementHandler.java:47) ~[mybatis-3.5.1.jar!/:3.5.1]
+            at org.apache.ibatis.executor.statement.RoutingStatementHandler.update(RoutingStatementHandler.java:74) ~[mybatis-3.5.1.jar!/:3.5.1]
+            at sun.reflect.GeneratedMethodAccessor221.invoke(Unknown Source) ~[?:?]
+            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_362]
+            at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_362]
+            at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:63) ~[mybatis-3.5.1.jar!/:3.5.1]
+            at com.sun.proxy.$Proxy217.update(Unknown Source) ~[?:?]
+            at com.baomidou.mybatisplus.core.executor.MybatisSimpleExecutor.doUpdate(MybatisSimpleExecutor.java:54) ~[mybatis-plus-core-3.1.2.jar!/:3.1.2]
+            at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:117) ~[mybatis-3.5.1.jar!/:3.5.1]
+            at sun.reflect.GeneratedMethodAccessor220.invoke(Unknown Source) ~[?:?]
+            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_362]
+            at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_362]
+            at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:63) ~[mybatis-3.5.1.jar!/:3.5.1]
+            at com.sun.proxy.$Proxy216.update(Unknown Source) ~[?:?]
+            at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:197) ~[mybatis-3.5.1.jar!/:3.5.1]
+            at org.apache.ibatis.session.defaults.DefaultSqlSession.insert(DefaultSqlSession.java:184) ~[mybatis-3.5.1.jar!/:3.5.1]
+            at sun.reflect.GeneratedMethodAccessor1646.invoke(Unknown Source) ~[?:?]
+            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_362]
+            at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_362]
+            at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:433) ~[mybatis-spring-2.0.1.jar!/:2.0.1]
+            ... 28 more
   END_JAVA_MYSQL
 
   PHP_EXC = <<~END_PHP.freeze

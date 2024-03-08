@@ -53,10 +53,10 @@ module Fluent
 
     JAVA_RULES = [
       rule(%i[start_state java_start_exception],
-           /(?:Exception|MysqlDataTruncation|Error|Throwable|V8 errors stack trace)[:\r\n]/,
+           /(?:Exception|Error|Throwable|V8 errors stack trace)[:\r\n]/,
            :java_after_exception),
       rule(:java_after_exception, /^### /, :java_after_exception),
-      rule(:java_after_exception, /^;.*\[\]; /, :java_after_exception),
+      rule(:java_after_exception, /^;.*; /, :java_after_exception),
       rule(:java_after_exception, /^[\t ]*nested exception is:[\t ]*/,
            :java_start_exception),
       rule(:java_after_exception, /^[\r\n]*$/, :java_after_exception),
