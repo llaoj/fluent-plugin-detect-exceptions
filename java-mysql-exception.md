@@ -1,3 +1,5 @@
+## 测试
+
 1. 生成测试日志
 
 ```sh
@@ -61,4 +63,32 @@ docker run -d --name=fluentd \
 
 通过查看fluentd容器的stdout日志判断日志合并情况.
 
-经查看分析, 测试通过!
+经查看分析, 对比原日志, 发现可以按照设计的规则进行合并, 测试通过!
+
+## 部署
+
+1. 创建配置字典
+
+```
+kubectl -n logging-kafka create configmap exception_detector_rb --from-file=exception_detector.rb=/tmp/exception_detector.rb
+```
+
+2. 修改fluentd配置清单
+
+```yaml
+        volumeMounts:
+...
+        - mountPath: /fluentd/vendor/bundle/ruby/3.1.0/gems/fluent-plugin-detect-exceptions-0.0.14/lib/fluent/plugin/exception_detector.rb
+          name: exception_detector_rb
+          subPath: exception_detector.rb
+...
+      volumes:
+...
+      - configMap:
+          defaultMode: 420
+          name: exception_detector_rb
+        name: exception_detector_rb
+...
+```
+
+**注意**: 确保使用的镜像是: `fluent/fluentd-kubernetes-daemonset:v1.15.2-debian-kafka2-1.0`, 不同镜像源代码路径可能有所不同.

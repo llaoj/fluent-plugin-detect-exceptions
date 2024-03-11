@@ -41,7 +41,7 @@ class DetectExceptionsOutputTest < Test::Unit::TestCase
   END_JAVA
 
   JAVA_MYSQL_EXC = <<~END_JAVA_MYSQL.freeze
-    org.springframework.dao.DataIntegrityViolationException: 
+    org.springframework.dao.DataIntegrityViolationException:
     ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Out of range value for column 'shutdown_time' at row 1
     ### The error may exist in com/cosmo/hmzy/dao/TShutdownRecordDayMapper.java (best guess)
     ### The error may involve com.cosmo.hmzy.dao.TShutdownRecordDayMapper.insert-Inline
